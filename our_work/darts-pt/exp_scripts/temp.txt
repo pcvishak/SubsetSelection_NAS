@@ -1,0 +1,19 @@
+id: darts-201 seed: 0 dataset: cifar10
+gpu: auto
+WARNING: ../experiments/nasbench201/search-darts-201-0 exists, override?[y/n]proceed to override saving directory
+Experiment dir : ../experiments/nasbench201/search-darts-201-0
+03/11 05:54:13 PM ======> log filename: log.txt
+03/11 05:54:14 PM args = Namespace(arch_learning_rate=0.0003, arch_weight_decay=0.001, batch_size=64, ckpt_interval=20, cutout=False, cutout_length=16, cutout_prob=1.0, data='../data', dataset='cifar10', dev=None, edge_decision='random', epochs=100, expid_tag='none', fast=False, gpu='auto', grad_clip=5, init_channels=16, layers=8, learning_rate=0.025, learning_rate_min=0.001, log_tag='', method='darts', model_path='saved_models', momentum=0.9, proj_crit='acc', proj_intv=5, report_freq=50, resume_epoch=0, resume_expid='', sampling_portion=0.2, save='../experiments/nasbench201/search-darts-201-0', search_space='nas-bench-201', seed=0, train_portion=0.5, weight_decay=0.0003)
+03/11 05:54:14 PM gpu device = 0
+try to create the NAS-Bench-201 api from ../data/NAS-Bench-201-v1_0-e61699.pth
+03/11 05:54:42 PM param size = 1.686106MB
+Files already downloaded and verified
+Files already downloaded and verified
+03/11 05:54:44 PM epoch 0 lr 2.500000e-02
+03/11 05:54:44 PM genotype = Structure(4 nodes with |nor_conv_3x3~0|+|skip_connect~0|none~1|+|none~0|skip_connect~1|nor_conv_1x1~2|)
+03/11 05:54:44 PM tensor([[0.1998, 0.1996, 0.1998, 0.2004, 0.2004],
+        [0.1998, 0.2003, 0.2001, 0.1999, 0.2000],
+        [0.2004, 0.1999, 0.1999, 0.2000, 0.1997],
+        [0.2004, 0.1999, 0.1998, 0.2001, 0.1999],
+        [0.1999, 0.2002, 0.2000, 0.2000, 0.1999],
+        [0.2000, 0.2001, 0.2002, 0.2001, 0.1996]], grad_fn=<ToCopyBackward0>)
