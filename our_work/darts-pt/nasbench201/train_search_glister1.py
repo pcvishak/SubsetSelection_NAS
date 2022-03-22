@@ -200,11 +200,11 @@ def main():
     num_train = len(train_data)
 
     train_queue = torch.utils.data.DataLoader(
-                train_data, batch_size=2,
+                train_data, batch_size=args.batch_size,
                 sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
                 pin_memory=True)
     valid_queue = torch.utils.data.DataLoader(
-        train_data, batch_size=2,
+        train_data, batch_size=args.batch_size,
         sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[split:num_train]),
         pin_memory=True)
 
@@ -266,12 +266,15 @@ def main():
         if epoch % 10 == 0:
 
             model_params = {
+                'epoch': epoch+1,
                 'alpha': model.arch_parameters(),
                 'state_dict': model.state_dict(),
                 'optimizer': model.optimizer.state_dict()
             }
 
-            indices = glister_selector.select(num_train, model_params)[0]
+            ig_utils.save_checkpoint(model_params, False,os.path.join(args.save,'glister'),per_epoch=True)
+            exit(1)
+            indices = glister_selector.select(num_train, os.path.join(os.path.join(args.save,'glister'),'checkpoint_{}.pth.tar'.format(epoch)))[0]
             split = int(np.floor(args.train_portion * num_train))
             #print("SPLIT ", split)
             #print("NUM_TRAIN ", num_train)

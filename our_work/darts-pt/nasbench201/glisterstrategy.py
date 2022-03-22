@@ -139,6 +139,8 @@ class GLISTERStrategy(DataSelectionStrategy):
                             l1_grads = l1_grads.mean(dim=0).view(1, -1)
                 else:
                     out, l1 = self.model.forward(inputs, last=True, freeze=True)
+                    #print("Shape of out", out.shape)
+                    #print("Shape of l1", l1.shape)
                     loss = self.loss(out, targets).sum()
                     batch_l0_grads = torch.autograd.grad(loss, out)[0]
                     if self.linear_layer:
