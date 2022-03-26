@@ -1,0 +1,2 @@
+Run run_fl_seeds.sh as a bash script (located in exp_scripts directory) to run darts-pt with facility location for desired seeds (deafault is seeds 0,10,20,30,40 you can modify the arrays to your requirement)
+ 
