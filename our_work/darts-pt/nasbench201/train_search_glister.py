@@ -163,11 +163,12 @@ def main():
     search_space = SearchSpaceNames[args.search_space]
     if args.method in ['darts', 'blank']:
         model = TinyNetworkDarts(C=args.init_channels, N=5, max_nodes=4, num_classes=n_classes, criterion=criterion, search_space=search_space, args=args)
+        model_glister = TinyNetworkDarts(C=args.init_channels, N=5, max_nodes=3, num_classes=n_classes, criterion=criterion, search_space=search_space, args=args)
     elif args.method in ['darts-proj', 'blank-proj']:
         model = TinyNetworkDartsProj(C=args.init_channels, N=5, max_nodes=4, num_classes=n_classes, criterion=criterion, search_space=search_space, args=args)
     #model = model.cuda()
-    model = nn.DataParallel(model)
-    model = model.module
+    #model = nn.DataParallel(model)
+    #model = model.module
     model = model.to(device)
     logging.info("param size = %fMB", ig_utils.count_parameters_in_MB(model))
 
@@ -200,24 +201,18 @@ def main():
     num_train = len(train_data)
 
     train_queue = torch.utils.data.DataLoader(
-                train_data, batch_size=2,
+                train_data, batch_size=64,
                 sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
                 pin_memory=True)
     valid_queue = torch.utils.data.DataLoader(
-        train_data, batch_size=2,
+        train_data, batch_size=64,
         sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[split:num_train]),
         pin_memory=True)
 
-    #glister_selector = GLISTERStrategy(copy.deepcopy(train_queue), copy.deepcopy(valid_queue), copy.deepcopy(model), criterion, args.learning_rate, 'cuda', n_classes, False, 'PerClass', 'RGreedy', logging.getLogger())
     
-    glister_selector = GLISTERStrategy(train_queue, valid_queue, copy.deepcopy(model), criterion, args.learning_rate, device, n_classes, False, 'PerClass', 'RGreedy', logging.getLogger())
+    glister_selector = GLISTERStrategy(train_queue, valid_queue, model, criterion, args.learning_rate, device, n_classes, False, 'PerClass', 'RGreedy', logging.getLogger())
     num_train = len(train_data)*args.sampling_portion
     
-    #split = int(np.floor(args.train_portion * num_train))
-    
-
-
-
     #### scheduler
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         model.optimizer, float(args.epochs), eta_min=args.learning_rate_min)
@@ -273,9 +268,6 @@ def main():
 
             indices = glister_selector.select(num_train, model_params)[0]
             split = int(np.floor(args.train_portion * num_train))
-            #print("SPLIT ", split)
-            #print("NUM_TRAIN ", num_train)
-            #print("INDICES LENGTH ", len(indices))
 
             train_queue = torch.utils.data.DataLoader(
                 train_data, batch_size=args.batch_size,
@@ -288,7 +280,6 @@ def main():
                 pin_memory=True)
             
        
-        print("BEFORE TRAIN")
         train_acc, train_obj = train(train_queue, valid_queue, model, architect, model.optimizer, lr, epoch)
         logging.info('train_acc  %f', train_acc)
         logging.info('train_loss %f', train_obj)

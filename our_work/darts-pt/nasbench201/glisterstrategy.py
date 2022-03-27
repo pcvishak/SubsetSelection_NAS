@@ -139,8 +139,6 @@ class GLISTERStrategy(DataSelectionStrategy):
                             l1_grads = l1_grads.mean(dim=0).view(1, -1)
                 else:
                     out, l1 = self.model.forward(inputs, last=True, freeze=True)
-                    #print("Shape of out", out.shape)
-                    #print("Shape of l1", l1.shape)
                     loss = self.loss(out, targets).sum()
                     batch_l0_grads = torch.autograd.grad(loss, out)[0]
                     if self.linear_layer:
@@ -325,11 +323,11 @@ class GLISTERStrategy(DataSelectionStrategy):
                 trn_subset_idx = torch.where(self.trn_lbls == i)[0].tolist()
                 trn_data_sub = Subset(self.trainloader.dataset, trn_subset_idx)
                 self.pctrainloader = DataLoader(trn_data_sub, batch_size=self.trainloader.batch_size,
-                                                shuffle=False, pin_memory=True)
+                                                shuffle=False, pin_memory=False)
                 val_subset_idx = torch.where(self.val_lbls == i)[0].tolist()
                 val_data_sub = Subset(self.valloader.dataset, val_subset_idx)
                 self.pcvalloader = DataLoader(val_data_sub, batch_size=self.trainloader.batch_size,
-                                                shuffle=False, pin_memory=True)
+                                                shuffle=False, pin_memory=False)
                 self.compute_gradients(perClass=True)
                 self._update_grads_val(first_init=True)
                 idxs_temp, gammas_temp = self.greedy_algo(math.ceil(budget * len(trn_subset_idx) / self.N_trn))

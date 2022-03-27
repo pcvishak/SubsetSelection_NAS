@@ -9,7 +9,6 @@ class TinyNetworkDarts(TinyNetwork):
                affine=False, track_running_stats=True):
     super(TinyNetworkDarts, self).__init__(C, N, max_nodes, num_classes, criterion, search_space, args,
           affine=affine, track_running_stats=track_running_stats)
-
     self.theta_map = lambda x: torch.softmax(x, dim=-1)
   
   def get_theta(self):
@@ -20,12 +19,13 @@ class TinyNetworkDarts(TinyNetwork):
     feature = self.stem(inputs)
 
     if freeze:
-      for i, cell in enumerate(self.cells):
-        if isinstance(cell, SearchCell):
-          feature = cell(feature, weights)
-        else:
-          feature = cell(feature)
-
+      with torch.no_grad():
+          for i, cell in enumerate(self.cells):
+              if isinstance(cell, SearchCell):
+                  feature = cell(feature, weights)
+              else:
+                  feature = cell(feature)
+      
       out = self.lastact(feature)
       out = self.global_pooling( out )
       out = out.view(out.size(0), -1)
