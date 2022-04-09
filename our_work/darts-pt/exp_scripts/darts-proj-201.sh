@@ -2,11 +2,11 @@
 script_name=`basename "$0"`
 id=${script_name%.*}
 dataset=${dataset:-cifar10}
-seed=${seed:-0}
+seed=${seed:-$2}
 gpu=${gpu:-"auto"}
 
 resume_epoch=${resume_epoch:-100}
-resume_expid=${resume_expid:-"search-darts-201-1"}
+resume_expid=${resume_expid:-"search-darts-201-$1"}
 
 while [ $# -gt 0 ]; do
     if [[ $1 == *"--"* ]]; then
@@ -22,7 +22,7 @@ echo 'resume_epoch:' $resume_epoch 'resume_expid' $resume_expid
 echo 'gpu:' $gpu
 
 cd ../nasbench201/
-python train_search.py \
+python train_search_glister.py \
     --method darts-proj \
     --dataset $dataset \
     --save $id --gpu $gpu --seed $seed \

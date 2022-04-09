@@ -2,7 +2,7 @@
 script_name=`basename "$0"`
 id=${script_name%.*}
 dataset=${dataset:-cifar10}
-seed=${seed:-0}
+seed=${seed:-$1}
 gpu=${gpu:-"auto"}
 
 while [ $# -gt 0 ]; do

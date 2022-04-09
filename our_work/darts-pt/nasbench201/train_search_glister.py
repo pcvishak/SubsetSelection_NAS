@@ -69,7 +69,7 @@ parser.add_argument('--edge_decision', type=str, default='random', choices=['ran
 parser.add_argument('--proj_crit', type=str, default='acc', choices=['loss', 'acc'], help='criteria for projection')
 parser.add_argument('--proj_intv', type=int, default=5, help='fine tune epochs between two projections')
 #### glister
-parser.add_argument('--sampling_portion',type=float, default=0.2, help="percentage of data to be used for architecture search")
+parser.add_argument('--sampling_portion',type=float, default=0.1, help="percentage of data to be used for architecture search")
 
 args = parser.parse_args()
 
@@ -151,6 +151,7 @@ def main():
     torch.manual_seed(args.seed)
     cudnn.enabled = True
     torch.cuda.manual_seed(args.seed)
+    torch.backends.cudnn.deterministic=True
     logging.info("args = %s", args)
     logging.info('gpu device = %d' % gpu)
 
@@ -217,7 +218,6 @@ def main():
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
         model.optimizer, float(args.epochs), eta_min=args.learning_rate_min)
 
-
     #### resume
     start_epoch = 0
     if args.resume_epoch != 0:
@@ -268,6 +268,9 @@ def main():
 
             indices = glister_selector.select(num_train, model_params)[0]
             split = int(np.floor(args.train_portion * num_train))
+            if (epoch == args.epochs - 10):
+                indices_array = np.array(indices)
+                np.save('indices_array.npy',indices_array)
 
             train_queue = torch.utils.data.DataLoader(
                 train_data, batch_size=args.batch_size,
@@ -289,7 +292,7 @@ def main():
         logging.info('valid_acc  %f', valid_acc)
         logging.info('valid_loss %f', valid_obj)
 
-        ''' 
+         
         ## logging
         if not args.fast:
             # nasbench201
@@ -302,7 +305,7 @@ def main():
             writer.add_scalars('nasbench201/cifar10', {'train':cifar10_train,'test':cifar10_test}, epoch)
             writer.add_scalars('nasbench201/cifar100', {'train':cifar100_train,'valid':cifar100_valid, 'test':cifar100_test}, epoch)
             writer.add_scalars('nasbench201/imagenet16', {'train':imagenet16_train,'valid':imagenet16_valid, 'test':imagenet16_test}, epoch)
-        '''
+
         
         #### scheduling
         scheduler.step()
@@ -322,6 +325,18 @@ def main():
 
     #### architecture selection / projection
     if args.dev == 'proj':
+        indices = np.load('indices_array.npy')
+        num_train = len(train_data)*args.sampling_portion
+        split = int(np.floor(args.train_portion * num_train))
+        train_queue = torch.utils.data.DataLoader(
+            train_data, batch_size=args.batch_size,
+            sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
+            pin_memory=True)
+            
+        valid_queue = torch.utils.data.DataLoader(
+            train_data, batch_size=args.batch_size,
+            sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[split:int(num_train)]),
+            pin_memory=True)
         pt_project(train_queue, valid_queue, model, architect, criterion, model.optimizer,
                    start_epoch, args, infer, query)
 
