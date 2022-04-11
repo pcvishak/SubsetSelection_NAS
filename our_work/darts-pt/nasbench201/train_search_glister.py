@@ -204,11 +204,11 @@ def main():
     train_queue = torch.utils.data.DataLoader(
                 train_data, batch_size=64,
                 sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
-                pin_memory=True)
+                pin_memory=True, num_workers=0)
     valid_queue = torch.utils.data.DataLoader(
         train_data, batch_size=64,
         sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[split:num_train]),
-        pin_memory=True)
+        pin_memory=True, num_workers=0)
 
     
     glister_selector = GLISTERStrategy(train_queue, valid_queue, model, criterion, args.learning_rate, device, n_classes, False, 'PerClass', 'RGreedy', logging.getLogger())
@@ -275,12 +275,12 @@ def main():
             train_queue = torch.utils.data.DataLoader(
                 train_data, batch_size=args.batch_size,
                 sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
-                pin_memory=True)
+                pin_memory=True, num_workers=0)
             
             valid_queue = torch.utils.data.DataLoader(
                 train_data, batch_size=args.batch_size,
                 sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[split:int(num_train)]),
-                pin_memory=True)
+                pin_memory=True, num_workers=0)
             
        
         train_acc, train_obj = train(train_queue, valid_queue, model, architect, model.optimizer, lr, epoch)
@@ -331,12 +331,12 @@ def main():
         train_queue = torch.utils.data.DataLoader(
             train_data, batch_size=args.batch_size,
             sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
-            pin_memory=True)
+            pin_memory=True, num_workers=0)
             
         valid_queue = torch.utils.data.DataLoader(
             train_data, batch_size=args.batch_size,
             sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[split:int(num_train)]),
-            pin_memory=True)
+            pin_memory=True, num_workers=0)
         pt_project(train_queue, valid_queue, model, architect, criterion, model.optimizer,
                    start_epoch, args, infer, query)
 

@@ -323,11 +323,11 @@ class GLISTERStrategy(DataSelectionStrategy):
                 trn_subset_idx = torch.where(self.trn_lbls == i)[0].tolist()
                 trn_data_sub = Subset(self.trainloader.dataset, trn_subset_idx)
                 self.pctrainloader = DataLoader(trn_data_sub, batch_size=self.trainloader.batch_size,
-                                                shuffle=False, pin_memory=False)
+                                                shuffle=False, pin_memory=False, num_workers=0)
                 val_subset_idx = torch.where(self.val_lbls == i)[0].tolist()
                 val_data_sub = Subset(self.valloader.dataset, val_subset_idx)
                 self.pcvalloader = DataLoader(val_data_sub, batch_size=self.trainloader.batch_size,
-                                                shuffle=False, pin_memory=False)
+                                                shuffle=False, pin_memory=False, num_workers=0)
                 self.compute_gradients(perClass=True)
                 self._update_grads_val(first_init=True)
                 idxs_temp, gammas_temp = self.greedy_algo(math.ceil(budget * len(trn_subset_idx) / self.N_trn))
