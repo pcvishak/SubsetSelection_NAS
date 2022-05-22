@@ -1,12 +1,5 @@
 import sys
 sys.path.insert(0, '../')
-from submodlib import LogDeterminantFunction
-from submodlib import DisparityMinFunction
-from submodlib import ProbabilisticSetCoverFunction
-from submodlib import GraphCutFunction
-from submodlib_cpp import FeatureBased
-from submodlib import FeatureBasedFunction
-from submodlib import DisparitySumFunction
 from submodlib import FacilityLocationFunction
 from sampler import *
 from nasbench201.projection import pt_project
@@ -30,7 +23,7 @@ import numpy as np
 import glob
 import time
 import os
-
+import random
 
 torch.set_printoptions(precision=4, sci_mode=False)
 np.set_printoptions(precision=4, suppress=True)
@@ -107,7 +100,7 @@ parser.add_argument('--proj_intv', type=int, default=5,
 #parser.add_argument('--entropy_file', type=str,
 #                    default='./entropy_list/cifar10_resnet20_entropy_file.txt',
 #                    help='index/entropy/class of the target dataset obtained from a pretrained network')
-parser.add_argument('--sampling_portion', type=float, default=0.2,
+parser.add_argument('--sampling_portion', type=float, default=0.1,
                     help='proxy dataset relative size to the target dataset')
 ################################
 args = parser.parse_args()
@@ -118,18 +111,18 @@ args = parser.parse_args()
 
 # args augment
 expid = args.save
-args.save = '../experiments/nasbench201/search-{}-{}'.format(
-    args.save, args.seed)
-if not args.dataset == 'cifar10':
-    args.save += '-' + args.dataset
+args.save = '../experiments/nasbench201-{}/search-{}-{}'.format(
+    args.dataset, args.save, args.seed)
+#if not args.dataset == 'cifar10':
+#    args.save += '-' + args.dataset
 if args.expid_tag != 'none':
     args.save += '-' + args.expid_tag
 
 
 # logging
 if args.resume_epoch > 0:  # do not delete dir if resume:
-    args.save = '../experiments/nasbench201/{}'.format(
-        args.resume_expid)
+    args.save = '../experiments/nasbench201-{}/{}'.format(
+        args.dataset, args.resume_expid)
     if not os.path.exists(args.save):
         print('no such directory {}'.format(args.save))
 else:
@@ -180,6 +173,8 @@ elif args.dataset == 'imagenet16-120':
 else:
     n_classes = 10
 
+def init_fn(worker_id):
+    np.random.seed(args.seed)
 
 def main():
     torch.set_num_threads(3)
@@ -194,6 +189,8 @@ def main():
     torch.manual_seed(args.seed)
     cudnn.enabled = True
     torch.cuda.manual_seed(args.seed)
+    random.seed(args.seed)
+    print(torch.randn(2,5))
     logging.info("args = %s", args)
     logging.info('gpu device = %d' % gpu)
 
@@ -232,7 +229,7 @@ def main():
         valid_data = dset.CIFAR100(
             root=args.data, train=False, download=True, transform=valid_transform)
     elif args.dataset == 'imagenet16-120':
-        num_class = 10
+        num_class = 120
         import torchvision.transforms as transforms
         from nasbench201.DownsampledImageNet import ImageNet16
         mean = [x / 255 for x in [122.68, 116.66, 104.01]]
@@ -246,24 +243,18 @@ def main():
                                 train=False, transform=train_transform, use_num_of_class_only=120)
         assert len(train_data) == 151700
 
-    data = np.array([np.array(ele[0]) for ele in train_data])
-    # for ele in train_data:
-    #     print(type(ele))
-    #     print(type(ele[0]))
-    #     print(ele[0].shape)
-    #     print(type(ele[1]))
-    
+    data = np.array([np.array(ele[0]) for ele in train_data])   
     groundData = np.reshape(data, (data.shape[0], -1))
     groundShape = data.shape[0]
-    subsetsize = int(groundShape * args.sampling_portion)
 
+    subsetsize = int(groundShape * args.sampling_portion)
     split = int(np.floor(args.train_portion * subsetsize))
     logging.info('D_train: %d, D_val: %d' % (split, subsetsize - split))
 
     label = [ele[1] for ele in train_data]
-
     label_data = []
     num_labels= num_class
+
     for i in range(num_labels):
         label_data.append([])
 
@@ -301,12 +292,14 @@ def main():
     train_queue = torch.utils.data.DataLoader(
         train_data, batch_size=args.batch_size,
         sampler=torch.utils.data.sampler.SubsetRandomSampler(indices[:split]),
-        pin_memory=True)
+        pin_memory=True,
+        worker_init_fn=init_fn)
     valid_queue = torch.utils.data.DataLoader(
         train_data, batch_size=args.batch_size,
         sampler=torch.utils.data.sampler.SubsetRandomSampler(
             indices[split:num_train]),
-        pin_memory=True)
+        pin_memory=True,
+        worker_init_fn=init_fn)
 
     # scheduler
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(
