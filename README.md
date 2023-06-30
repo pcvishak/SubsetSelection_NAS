@@ -9,6 +9,7 @@ Overview
 
 This codebase extends the excellent public repository DARTS-PT. 
 The codebase consists of three different approaches to subset selection for NAS (using DARTS-PT).
+
 1. Facility Location - While similar to DARTS-PT, the supernetwork is trained and discretized using a subset of the training data, selected using facility location. We have used submodlib library's facility loaction function implemenatation. You can read more about facility location from here https://submodlib.readthedocs.io/en/latest/functions/facilityLocation.html.
 
 2. Proxy data - This implementation is based on the work https://arxiv.org/abs/2106.04784. We have extended their code https://github.com/nabk89/NAS-with-Proxy-data to DARTS-PT. The supernetwork is trained and discretized using a subset of the training data, selected using a combination of high and low-entropy datapoints.
@@ -21,7 +22,7 @@ We used the same set up as in DARTS-PT. You can read more about it from here htt
 
 Datasets and Search spaces used 
 -------------------------------
-Code for 3 datasets: Cifar-10, Cifa-100, Imagenet16-120. We have also ran our code on multiple search spaces: NAS-Bench-201, DARTS and S4. 
+Code for 3 datasets: Cifar-10, Cifar-100, Imagenet16-120. We also ran our code on multiple search spaces: NAS-Bench-201, DARTS and S4. 
 
 Data can be fetched from https://github.com/ruocwang/darts-pt.
 
