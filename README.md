@@ -42,10 +42,4 @@ Results of Adaptive-DPT
 |Cifar-10       |      S4       |    97.30 ± 0.12           | 1.08      |    10       |
 |Cifar-10       |     DARTS     |    97.30 ± 0.05           | 8.82      |    30       |
 
-If you are using our work, Please cite us:
 
-@inproceedings{prasad2022speeding,
-  title={Speeding up NAS with Adaptive Subset Selection},
-  author={Prasad, Vishak and White, Colin and Jain, Paarth and Nayak, Sibasis and Iyer, Rishabh K and Ramakrishnan, Ganesh},
-  booktitle={First Conference on Automated Machine Learning (Late-Breaking Workshop)},
-  year={2022}
