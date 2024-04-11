@@ -34,7 +34,7 @@ gpustat
 
 1. Download [NAS-Bench-201-v1_0-e61699.pth](https://drive.google.com/file/d/1SKW0Cu0u8-gb18zDpaAGi0f74UdXeGKs/view) and save it under `./data`.
 
-2. Install nas-bench-201. (Note: To be consistent with darts-pt, use the `[2020-02-25]` version of the NAS-Bench-201 API.
+2. Install nas-bench-201. (Note: to be consistent with darts-pt, use the `[2020-02-25]` version of the NAS-Bench-201 API).
 ```bash
 pip install nas-bench-201
 ```
@@ -43,7 +43,7 @@ pip install nas-bench-201
 Running experiments
 --------------------
 
-Now, we describe how to reproduce all tables in our paper.
+Now, we describe how to reproduce all tables and figures in our paper.
 
 ### Adaptive DPT 
 
