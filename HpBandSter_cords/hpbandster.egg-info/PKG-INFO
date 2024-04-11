@@ -1,0 +1,14 @@
+Metadata-Version: 2.1
+Name: hpbandster
+Version: 0.7.4
+Summary: HyPerBAND on STERoids, a distributed Hyperband implementation with lots of room for improvement
+Home-page: https://github.com/automl/HpBandSter
+Author: Stefan Falkner
+Author-email: sfalkner@cs.uni-freiburg.de
+License: BSD 3-Clause License
+Description: UNKNOWN
+Keywords: distributed,optimization,multifidelity
+Platform: UNKNOWN
+Classifier: Development Status :: 4 - Beta
+Requires-Python: >=3
+Provides-Extra: docu

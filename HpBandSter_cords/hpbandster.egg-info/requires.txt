@@ -1,0 +1,12 @@
+ConfigSpace
+Pyro4
+netifaces
+numpy
+scipy
+serpent
+statsmodels
+
+[docu]
+sphinx
+sphinx_gallery
+sphinx_rtd_theme
