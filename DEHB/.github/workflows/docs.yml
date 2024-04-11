@@ -1,0 +1,42 @@
+name: docs
+
+on:
+  # Trigger manually
+  workflow_dispatch:
+
+  # Trigger on any push to the main
+  push:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+env:
+  name: DEHB
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.10.x
+      - uses: actions/cache@v3
+        with:
+          key: ${{ github.ref }}
+          path: .cache
+      - uses: SebRollen/toml-action@v1.0.2
+        id: read_toml
+        with:
+          file: 'pyproject.toml'
+          field: 'project.version'
+      - run: pip install ".[dev, examples]"
+      - name: Configure Git user
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+      - run: git fetch origin gh-pages --depth=1
+      - run: mike deploy --push --update-aliases ${{ steps.read_toml.outputs.value }} latest
+      - run: mike set-default --push latest

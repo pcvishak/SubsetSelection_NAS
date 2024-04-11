@@ -1,0 +1,127 @@
+site_name: DEHB
+repo_url: https://github.com/automl/DEHB/
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Single Worker: getting_started/single_worker.md
+    - Parallel: getting_started/parallel.md
+    - Ask & Tell: getting_started/ask_tell.md
+  - Examples:
+    - Interfacing DEHB: examples/00_interfacing_DEHB.ipynb
+    - Optimizing RandomForest using DEHB: examples/01.1_Optimizing_RandomForest_using_DEHB.ipynb
+    - Using the Ask & Tell interface: examples/01.2_Optimizing_RandomForest_using_Ask_Tell.ipynb
+    - Using DEHB without ConfigSpace: examples/02_using_DEHB_without_ConfigSpace.ipynb
+    - Logging and Restarting: examples/04_restarting_an_optimization_run.ipynb
+  - Code Reference:
+    - DEHB: references/dehb.md
+    - DE: references/de.md
+    - Bracket Manager: references/bracket_manager.md
+    - Configuration Repository: references/config_repository.md
+
+theme:
+  name: material
+  logo: assets/automl_org.png
+  favicon: assets/automl_org.png
+  icon:
+    repo: fontawesome/brands/github
+  features:
+    - content.code.annotate
+    - content.code.copy
+    - navigation.footer
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - toc.follow
+    - header.autohide
+    - search.suggest
+    - search.highlight
+    - search.share
+  font:
+    text: Roboto
+    code: Roboto Mono
+  palette:
+    - scheme: slate
+      media: "(prefers-color-scheme: dark)"
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/eye-outline
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - scheme: default
+      media: "(prefers-color-scheme: light)"
+      primary: indigo
+      accent: deep purple
+      toggle:
+        icon: material/eye
+        name: Switch to dark mode
+
+markdown_extensions:
+  - admonition
+  - tables
+  - attr_list
+  - md_in_html
+  - toc:
+      permalink: "#"
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.magiclink:
+      hide_protocol: true
+      repo_url_shortener: true
+      repo_url_shorthand: true
+      user: automl
+      repo: DEHB
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.details
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+      - name: mermaid
+        class: mermaid
+        format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.arithmatex:
+      generic: true
+
+plugins:
+  - search
+  - markdown-exec
+  - mkdocstrings:
+      default_handler: python
+      enable_inventory: true
+      handlers:
+        python:
+          paths: [src]
+          options:  # https://mkdocstrings.github.io/python/usage/
+            docstring_section_style: spacy
+            show_docstring_attributes: true
+            show_docstring_description: true
+            show_root_heading: false
+            show_root_toc_entry: false
+            show_object_full_path: false
+            merge_init_into_class: true
+            docstring_style: google
+            show_if_no_docstring: false
+            show_bases: true
+            show_source: true
+            members_order: "source"
+            show_signature: true
+            separate_signature: false
+            show_signature_annotations: false
+  - mkdocs-jupyter:
+      execute: true
+
+extra_javascript:
+  - javascripts/katex.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.js
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/contrib/auto-render.min.js
+
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.7/katex.min.css
+
+extra:
+  version:
+    provider: mike
