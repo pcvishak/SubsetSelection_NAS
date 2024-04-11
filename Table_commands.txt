@@ -1,0 +1,198 @@
+
+1. Adaptive DPT 
+-------------------------
+Directory - SubsetSelection_NAS/our_work/darts-pt
+
+1.1 cifar 10 dataset (Table 1)
+
+Run bash run_proxy_seeds.sh (running on different seeds)
+
+1.2 cifar-100 dataset (Table 2)
+
+Run bash run_proxy_seeds.sh (running on different seeds)
+Change dataset argument inside darts-201 to cifar-100
+
+1.3 Imagenet dataset (Table 3)
+
+Run bash run_proxy_seeds.sh (running on different seeds)
+Change dataset argument inside darts-201 to imagenet16-120
+
+
+1.4 S4 with cifar 10 dataset (Table 4)
+
+Supernet Training - bash darts-sota.sh --space s4 --dataset cifar10
+Architecture Selection - bash darts-proj-sota.sh --space s4 --dataset s4 --resume_expid search-darts-sota-s4-2
+
+
+1.5 DARTS search space with cifar10 dataset (Table 5)
+
+Supernet Training - bash darts-sota.sh
+Architecture Selection - bash darts-proj-sota.sh --resume_expid search-darts-sota-s5-2
+
+
+2. DARTS-PT-ENTROPY
+----------------------------
+Directory - SubsetSelection_NAS/modifications/dartspt_plus_proxy_data/darts-pt
+
+
+2.1 cifar 10 dataset (Table 1)
+
+Run bash darts-201.sh
+
+2.2 cifar-100 dataset (Table 2)
+
+Run bash darts-201.sh
+Change dataset argument inside darts-201 to cifar-100
+
+2.3 Imagenet dataset (Table 3)
+
+Run bash darts-201.sh
+Change dataset argument inside darts-201 to imagenet16-120
+
+
+2.4 S4 with cifar 10 dataset (Table 4)
+
+Supernet Training - bash darts-sota.sh --space s4 --dataset cifar10
+Architecture Selection - bash darts-proj-sota.sh --space s4 --dataset s4 --resume_expid search-darts-sota-s4-2
+
+
+2.5 DARTS search space with cifar10 dataset (Table 5)
+
+Supernet Training - bash darts-sota.sh
+Architecture Selection - bash darts-proj-sota.sh --resume_expid search-darts-sota-s5-2
+
+3. DARTS-PT-RAND
+----------------------------
+Directory - SubsetSelection_NAS/modifications/dartspt_plus_proxy_data/darts-pt
+(Remove --histogram and --histogram_type from darts-201.sh)
+
+3.1 cifar 10 dataset (Table 1)
+
+Run bash darts-201.sh
+
+3.2 cifar-100 dataset (Table 2)
+
+Run bash darts-201.sh
+Change dataset argument inside darts-201 to cifar-100
+
+3.3 Imagenet dataset (Table 3)
+
+Run bash darts-201.sh
+Change dataset argument inside darts-201 to imagenet16-120
+
+
+4. S4 with cifar 10 dataset (Table 4)
+---------------------------------------
+
+4.1 Supernet Training - bash darts-sota.sh --space s4 --dataset cifar10
+    Architecture Selection - bash darts-proj-sota.sh --space s4 --dataset s4 --resume_expid search-darts-sota-s4-2
+
+
+5. DARTS search space with cifar10 dataset (Table 5)
+------------------------------------------------------
+
+5.1 Supernet Training - bash darts-sota.sh
+    Architecture Selection - bash darts-proj-sota.sh --resume_expid search-darts-sota-s5-2
+
+6. DARTS-PT-FL
+----------------------------
+Directory - SubsetSelection_NAS/our_work/darts-pt-with-fl/
+
+6.1 cifar 10 dataset (Table 1)
+
+Run bash run_fl_seeds.sh (running on different seeds)
+
+6.2 cifar-100 dataset (Table 2)
+
+Run bash run_fl_seeds.sh (running on different seeds)
+Change dataset argument inside darts-201 to cifar-100
+
+6.3 Imagenet dataset (Table 3)
+
+Run bash run_fl_seeds.sh (running on different seeds)
+Change dataset argument inside darts-201 to imagenet16-120
+
+
+7. S4 with cifar 10 dataset (Table 4)
+------------------------------------------
+
+
+Supernet Training - bash darts-sota.sh --space s4 --dataset cifar10
+Architecture Selection - bash darts-proj-sota.sh --space s4 --dataset s4 --resume_expid search-darts-sota-s4-2
+
+
+8. DARTS search space with cifar10 dataset (Table 5)
+--------------------------------------------------------
+
+Supernet Training - bash darts-sota.sh
+Architecture Selection - bash darts-proj-sota.sh --resume_expid search-darts-sota-s5-2
+
+
+
+9. DARTS PT
+---------------------
+
+Please refer https://github.com/ruocwang/darts-pt
+
+
+10. Ablations
+-------------
+10.1 Table 7
+
+ - Directory - SubsetSelection_NAS/our_work/darts-pt
+
+ - cifar 10 dataset (Table 1)
+
+ - Run bash run_proxy_seeds.sh (running on different seeds), Change --sampling_portion to 0.1, 0.2, 0.3, 0.4, 0.5
+
+10.2 Table 8
+
+- Directory - SubsetSelection_NAS/our_work/darts-pt
+
+ - cifar 10 dataset (Table 1)
+
+ - Run bash run_proxy_seeds.sh (running on different seeds), Change --sampling_portion to 0.1, 0.2, 0.3, 0.4, 0.5 (Dont change it for projection code i.e change num_train = len(train_data) * args.sampling_portion to num_train = len(train_data) inside '#### architecture selection / projection' of train_search_glister.py file inside nasbench201 directory)
+
+10.3 Table 9
+
+Same as 1., 1.3 but,
+Change num_train = len(train_data) * args.sampling_portion to num_train = len(train_data) inside '#### architecture selection / projection' of train_search_glister.py file inside nasbench201 directory
+
+10.4 Table 6
+
+Same as 7. and 8. but,
+Change num_train = len(train_data) * args.sampling_portion to num_train = len(train_data) inside '#### architecture selection / projection' of train_search_glister.py file inside nasbench201 directory
+
+Figure 2
+------------
+You can plot from the results of Table 7. (i.e 10.1) and Table8. (i.e 10.2)
+
+BOHB
+-------
+Directory - HpBandSter/hpbandster/examples/
+
+Run python example_5_mnist.py
+
+Adaptive BOHB 
+---------------
+Directory -  HpBandSter_cords/hpbandster/examples/
+
+Run python example_5_mnist.py (To run for different sampling portions, change the 'fraction' value inside compute function.)
+
+DEHB
+--------
+Directory - DEHB/examples/03_pytorch_mnist_hpo.py
+
+Run python 03_pytorch_mnist_hpo.py
+
+Adaptive DEHB
+---------------
+Directory - AdaptiveNAS_DEHB/DEHB/examples/
+
+Run python 03_pytorch_mnist_hpo2.py (To run for different sampling portions, change the 'fraction' value inside compute function.)
+
+
+
+
+
+
