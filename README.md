@@ -48,7 +48,7 @@ Now, we describe how to reproduce all tables in our paper.
 ### Adaptive DPT 
 
 ```bash
-cd SubsetSelection_NAS/our_work/darts-pt
+cd SubsetSelection_NAS/our_work/darts-pt/exp_scripts
 ```
 
 1.1 cifar 10 dataset (Table 1)
@@ -103,7 +103,7 @@ bash darts-proj-sota.sh --resume_expid search-darts-sota-s5-2
 ### DARTS-PT-ENTROPY
 
 ```bash
-cd SubsetSelection_NAS/modifications/dartspt_plus_proxy_data/darts-pt
+cd SubsetSelection_NAS/modifications/dartspt_plus_proxy_data/darts-pt/exp_scripts
 ```
 
 2.1 cifar 10 dataset (Table 1)
@@ -153,7 +153,7 @@ bash darts-proj-sota.sh --resume_expid search-darts-sota-s5-2
 ### DARTS-PT-RAND
 
 ```bash
-cd SubsetSelection_NAS/modifications/dartspt_plus_proxy_data/darts-pt
+cd SubsetSelection_NAS/modifications/dartspt_plus_proxy_data/darts-pt/exp_scripts
 ```
 
 Remove --histogram and --histogram_type from darts-201.sh
@@ -179,9 +179,9 @@ bash darts-201.sh
 ```
 
 
-### S4 with cifar 10 dataset (Table 4)
+3.4 S4 with cifar 10 dataset (Table 4)
 
-4.1 Supernet Training:
+Supernet Training:
 ```bash
 bash darts-sota.sh --space s4 --dataset cifar10
 ```
@@ -190,9 +190,9 @@ Architecture Selection:
 bash darts-proj-sota.sh --space s4 --dataset s4 --resume_expid search-darts-sota-s4-2
 ```
 
-### DARTS search space with cifar10 dataset (Table 5)
+3.5 DARTS search space with cifar10 dataset (Table 5)
 
-5.1 Supernet Training:
+Supernet Training:
 ```bash
 bash darts-sota.sh
 ```
@@ -204,17 +204,17 @@ bash darts-proj-sota.sh --resume_expid search-darts-sota-s5-2
 ### DARTS-PT-FL
 
 ```bash
-cd SubsetSelection_NAS/our_work/darts-pt-with-fl/
+cd SubsetSelection_NAS/our_work/darts-pt-with-fl/exp_scripts
 ```
 
-6.1 cifar 10 dataset (Table 1)
+4.1 cifar 10 dataset (Table 1)
 
 ```bash
 bash run_fl_seeds.sh
 ```
 Run the above commands for seeds 0, 10, 20, 30, 40.
 
-6.2 cifar-100 dataset (Table 2)
+4.2 cifar-100 dataset (Table 2)
 
 Change dataset argument inside `darts-201.sh` and `darts-proj-201.sh` to `cifar-100`
 
@@ -224,7 +224,7 @@ Run bash run_fl_seeds.sh
 
 Run the above commands for seeds 0, 10, 20, 30, 40.
 
-6.3 Imagenet dataset (Table 3)
+4.3 Imagenet dataset (Table 3)
 
 Change dataset argument inside `darts-201.sh` and `darts-proj-201.sh` to `imagenet16-120`
 
@@ -235,7 +235,7 @@ Run bash run_fl_seeds.sh
 Run the above commands for seeds 0, 10, 20, 30, 40.
 
 
-### S4 with cifar 10 dataset (Table 4)
+4.4 S4 with cifar 10 dataset (Table 4)
 
 Supernet Training:
 ```bash
@@ -246,7 +246,7 @@ Architecture Selection:
 bash darts-proj-sota.sh --space s4 --dataset s4 --resume_expid search-darts-sota-s4-2
 ```
 
-### DARTS search space with cifar10 dataset (Table 5)
+4.5 DARTS search space with cifar10 dataset (Table 5)
 
 Supernet Training:
 ```bash
@@ -260,12 +260,15 @@ bash darts-proj-sota.sh --resume_expid search-darts-sota-s5-2
 
 ### DARTS-PT
 
-Please refer to the instructions in [ruocwang/darts-pt](https://github.com/ruocwang/darts-pt).
+```bash
+cd SubsetSelection_NAS/basecodes/darts-pt/exp_scripts
+```
+5.1 Please refer to the instructions in [ruocwang/darts-pt](https://github.com/ruocwang/darts-pt).
 
 
 ### Ablations
 
-10.1 Table 7
+6.1 Table 7
 
 ```bash
 cd SubsetSelection_NAS/our_work/darts-pt
@@ -279,7 +282,7 @@ bash run_proxy_seeds.sh
 ```
 Run the above commands for seeds 0, 10, 20, 30, 40.
 
-10.2 Table 8
+6.2 Table 8
 
 ```bash
 cd SubsetSelection_NAS/our_work/darts-pt
@@ -295,19 +298,19 @@ bash run_proxy_seeds.sh
 Run the above commands for seeds 0, 10, 20, 30, 40.
 
 
-10.3 Table 9
+6.3 Table 9
 
 Same as 1., 1.3 but,
 Change num_train = len(train_data) * args.sampling_portion to num_train = len(train_data) inside '#### architecture selection / projection' of train_search_glister.py file inside nasbench201 directory
 
-10.4 Table 6
+6.4 Table 6
 
 Same as 7. and 8. but,
 Change num_train = len(train_data) * args.sampling_portion to num_train = len(train_data) inside '#### architecture selection / projection' of train_search_glister.py file inside nasbench201 directory
 
 ### Figure 2
 
-We plotted from the results of Table 7. (i.e 10.1) and Table8. (i.e 10.2)
+We plotted from the results of Table 7. (i.e 6.1) and Table8. (i.e 6.2)
 
 ### BOHB
 
