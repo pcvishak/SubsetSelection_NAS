@@ -45,6 +45,11 @@ Running experiments
 
 Now, we describe how to reproduce all tables and figures in our paper.
 
+For NAS-Bench-201 results, the checkpoints and logs will be saved to `./experiments/nasbench201/search-{script_name}-{seed}/.` For example, the checkpoint dir would be `./experiments/nasbench201/search-darts-201-1/`.
+
+For S4 and S5, the checkpoints and logs will be saved to `./experiments/sota/{dataset}/search-{script_name}-{space_id}-{seed}/.` For example, `./experiments/sota/cifar10/search-darts-sota-s4-1/`.
+
+
 ### Adaptive DPT 
 
 ```bash
