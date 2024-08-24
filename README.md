@@ -4,7 +4,7 @@
 ----
 ![Crates.io](https://img.shields.io/crates/l/Ap?color=orange)
 
-Adapative-DPT is the first NAS algorithm to make use of adaptive subset selection. We uncover a natural connection between one-shot NAS algorithms and adaptive subset selection and devise an algorithm that makes use of state-of-the-art techniques from both areas. We use these techniques to substantially reduce the runtime of DARTS-PT (a leading one-shot NAS algorithm), as well as BOHB and DEHB (leading multifidelity optimization algorithms), by up to 8x, without sacrificing accuracy. We also add facility location as a novel baseline for subset selection applied to NAS. 
+Adapative-DPT is the first NAS algorithm to make use of adaptive subset selection. We uncover a natural connection between one-shot NAS algorithms and adaptive subset selection and devise an algorithm that makes use of state-of-the-art techniques from both areas. We use these techniques to substantially reduce the runtime of DARTS-PT (a leading one-shot NAS algorithm), as well as BOHB and DEHB (leading multifidelity optimization algorithms), by up to 8x, without sacrificing accuracy. We also add facility location as a novel baseline for subset selection applied to NAS.[Paper](https://openreview.net/attachment?id=hRqiQ2i5ps&name=pdf) 
 
 
 <p align="center"><img src="img/adaptive_dpt_overview.png" width=700 /></p>
